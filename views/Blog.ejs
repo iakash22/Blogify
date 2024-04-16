@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>
+            <%= blog ? blog?.title : "Blog" %>
+        </title>
+</head>
+
+<body>
+    <%- include('./partials/navbar') %>
+        <% if (locals.blog) { %>
+            <div class="container mt-5" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <h1>
+                    <%= blog.title %>
+                </h1>
+                <img src="<%= blog.coverImageUrl %>" alt="<%= blog.title %>" width="760px">
+                <pre class="mt-5 fs-5 w-full text-break" style="word-spacing: 0.5px; overflow-x: hidden;">
+                    <%= blog.body %>
+                </pre>
+            </div>
+
+            <div class="container mt-4 mb-5" 
+                style="display: flex; cursor: pointer; flex-direction: row; gap: 1rem; align-items: center;">
+                <div
+                    style="display:flex; justify-content: center; align-items: center; width: 90px; height: 90px; border-radius: 100%; background-color: #000; border: 2px solid snow; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
+                    <img src="<%= blog.createdBy.profileImageUrl %>" alt="<%= blog.createdBy.fullName %>" width="65px">
+                </div>
+                <h3 style="font-weight: bold; letter-spacing: 5px; text-shadow: 3px 4px 7px rgba(74, 73, 67, 0.8);">
+                    <%= blog.createdBy.fullName %>
+                </h3>
+            </div>
+            <% } %>
+
+                <div class="container my-5">
+                    <h2>Comments (<%= comments.length %>) </h2>
+
+                    <% if (locals.user) { %>
+                        <form action="/blog/comment/<%= blog._id %>" method="post">
+                            <div class="mt-3" style="display: flex; flex-direction: column;  gap: 10px; width: 50%;">
+                                <input type="text" name="content" id="content" class="form-control"
+                                    style="width: 100%; padding: 8px; outline: none;"
+                                    placeholder="leave your comment here.">
+                                <button type="submit" class="btn btn-lg btn-primary"
+                                    style="align-self: self-end; width: 100px;">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                        <% } %>
+
+                            <div class="my-3" style="width: 50%; padding: 5px 10px;display: flex; flex-direction: column; gap: 10px;">
+                                <% comments.forEach(comment=> { %>
+                                    <div class="container" style="display: flex; flex-direction: column; gap: 10px; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                                        <div style="display: flex; flex-direction: row; gap: 0.5rem; align-items: center; cursor: pointer;">
+                                            <div
+                                                style="display:flex; margin-top: 5px; justify-content: center; align-items: center; width: 25px; height: 25px; border-radius: 100%; background-color: #ececec; border: 2px solid snow; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
+                                                <img src="<%= comment.createdBy.profileImageUrl %>"
+                                                    alt="<%= comment.createdBy.fullName %>" width="20px">
+                                            </div>
+                                            <span style="font-size: 16px; font-weight: 600;">
+                                                <%= comment.createdBy.fullName %>
+                                            </span>
+                                        </div>
+                                        <pre style="padding-left: 2rem; font-size: 20px; font-weight: 500;"><%= comment.content %></pre>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                </div>
+
+                <%- include('./partials/scripts') %>
+</body>
+
+</html>

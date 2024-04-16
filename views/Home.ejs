@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Homepage</title>
+</head>
+
+<body>
+    <%- include('./partials/navbar') %>
+        <div class="container my-5" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; width: 100%; justify-content: center; column-gap: 5px;">
+            <% if (locals.blogs) { %>
+                <% blogs.forEach(blog=> { %>
+                    <div class="card" style="width: 20rem; height: 47vh;">
+                        <img src="<%= blog.coverImageUrl %>" class="card-img-top" alt="<%= blog.coverImageUrl %>"
+                            width="100%" height="450px" style="object-fit: contain;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= blog.title %>
+                            </h5>
+                            <a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } %>
+        </div>
+
+        <%- include('./partials/scripts') %>
+</body>
+
+</html>
